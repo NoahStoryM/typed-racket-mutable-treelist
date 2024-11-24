@@ -1,0 +1,34 @@
+#+TITLE: typed-racket-mutable-treelist
+#+AUTHOR: Noah Ma
+#+EMAIL: noahstorym@gmail.com
+
+* Table of Contents                                       :TOC_5_gh:noexport:
+- [[#typed-racket-compatible-mutable-treelist-library][Typed Racket-Compatible Mutable Treelist Library]]
+  - [[#installation][Installation]]
+  - [[#usage][Usage]]
+  - [[#technical-details][Technical Details]]
+  - [[#license][License]]
+
+* Typed Racket-Compatible Mutable Treelist Library
+The ~typed-racket-mutable-treelist~ package provides a typed wrapper around the
+~racket/mutable-treelist~ module in Racket. It introduces specific types to
+manage both read and write operations using Racket's ~Parameter~ type to simulate
+contravariant types.
+
+** Installation
+You can install the package from the Racket package manager using:
+#+begin_src shell
+raco pkg install typed-racket-mutable-treelist
+#+end_src
+
+** Usage
+The package provides a typed API for creating and managing mutable treelists in
+Typed Racket.
+
+** Technical Details
+Typed Racket currently lacks support for contravariant types in type constructors,
+so ~typed-racket-mutable-treelist~ relies on a ~Mutable-TreeListof~ struct with
+~Parameter~ types for read and write constraints.
+
+** License
+~typed-racket-mutable-treelist~ is distributed under the MIT License.
