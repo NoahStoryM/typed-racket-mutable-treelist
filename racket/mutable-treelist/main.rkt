@@ -15,6 +15,7 @@
 
 #;(define-type (ImmTreeListof t) (Immutabel-TreeListof t))
 #;(define-type (TreeListof t) (∪ (ImmTreeListof t) (MListof-TreeListof t t)))
+#;(provide ImmTreeListof TreeListof)
 
 (unsafe-require/typed/provide racket/mutable-treelist
   [mutable-treelist? (pred Mutable-TreeListTop)]
