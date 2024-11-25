@@ -9,7 +9,13 @@
                             (make-mutable-treelist 3 1)))])
     (check-true (mutable-treelist? mtl))
     (check-equal? (mutable-treelist-length mtl) 3)
-    (check-equal? (mutable-treelist->list mtl) '(1 1 1))))
+    (check-equal? (mutable-treelist->list mtl) '(1 1 1)))
+
+  (: mtl (Mutable-TreeListof (Option Integer) (Option Integer)))
+  (define mtl (make-mutable-treelist 3))
+  (check-equal? (mutable-treelist->list mtl) '(#f #f #f))
+  (mutable-treelist-set! mtl 1 0)
+  (check-equal? (mutable-treelist->list mtl) '(#f  0 #f)))
 
 (test-case "mutable-treelist length"
   (: mtl (Mutable-TreeListof Integer Integer))

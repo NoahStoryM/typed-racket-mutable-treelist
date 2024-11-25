@@ -20,7 +20,7 @@
 (unsafe-require/typed/provide racket/mutable-treelist
   [mutable-treelist? (pred Mutable-TreeListTop)]
   [mutable-treelist  (∀ (t) (→ t * (MTreeListof t t)))]
-  [make-mutable-treelist (∀ (t) (case→ (→ Integer (MTreeListof False False))
+  [make-mutable-treelist (∀ (t) (case→ (→ Integer (MTreeListof (Option t) (Option t)))
                                        (→ Integer t (MTreeListof t t))))]
 
   #;[treelist-copy (∀ (t) (→ (Immutable-TreeListof t) (MTreeListof t t)))]
