@@ -38,8 +38,8 @@
   [mutable-treelist-set!    (∀ (w) (→ (MTreeListof w Any) Integer w Void))]
   [mutable-treelist-insert! (∀ (w) (→ (MTreeListof w Any) Integer w Void))]
 
-  [mutable-treelist-append! (∀ (w) (case→ #;(→ (MTreeListof w Any) (Immutable-TreeListof w) Void)
-                                          (→ (MTreeListof w Any) (MTreeListof Nothing w) Void)))]
+  [mutable-treelist-append! (∀ (t) (case→ #;(→ (MTreeListof t Any) (Immutable-TreeListof t) Void)
+                                          (→ (MTreeListof t Any) (MTreeListof Nothing t) Void)))]
 
   [mutable-treelist-reverse!    (→ Mutable-TreeListTop Void)]
   [mutable-treelist-delete!     (→ Mutable-TreeListTop Integer Void)]
