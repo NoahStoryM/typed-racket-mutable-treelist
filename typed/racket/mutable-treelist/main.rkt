@@ -10,8 +10,8 @@
 
 (define-type Mutable-TreeListTop (MTreeListof Nothing Any))
 (define-type Mutable-TreeListBot (MTreeListof Any Nothing))
-(provide Mutable-TreeListTop (rename-out [Mutable-TreeListTop TreeListTop])
-         Mutable-TreeListBot (rename-out [Mutable-TreeListBot TreeListBot]))
+(provide Mutable-TreeListTop (rename-out [Mutable-TreeListTop MTreeListTop])
+         Mutable-TreeListBot (rename-out [Mutable-TreeListBot MTreeListBot]))
 
 #;(define-type (ImmTreeListof t) (Immutabel-TreeListof t))
 #;(define-type (TreeListof t) (∪ (ImmTreeListof t) (MListof-TreeListof t t)))
