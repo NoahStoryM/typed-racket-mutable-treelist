@@ -1,7 +1,7 @@
 #lang info
 
 (define license 'MIT)
-(define collection "typed")
+(define collection "unsafe")
 (define version "0.0")
 
 (define pkg-desc "Mutable treelists for typed racket")
