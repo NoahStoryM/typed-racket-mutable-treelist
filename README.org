@@ -13,7 +13,7 @@
 The ~unsafe-typed-racket-mutable-treelist~ package provides a typed wrapper
 around the ~racket/mutable-treelist~ module in Racket. It introduces specific
 types to manage both read and write operations using Racket's ~Parameter~ type
-to simulate contravariant types.
+to simulate invariant types.
 
 ** Installation
 You can install the package from the Racket package manager using:
