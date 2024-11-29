@@ -6,7 +6,7 @@
          (rename-out [Mutable-TreeListof     MTreeListof]
                      [Mutable-TreeListTop    MTreeListTop]
                      [Mutable-TreeListBot    MTreeListBot]
-                     #;[Immutabel-TreeListof ImmTreeListBot]
+                     #;[Immutabel-TreeListof ImmTreeListof]
 
                      [mutable-treelist?     mtreelist?]
                      [mutable-treelist      mtreelist]
