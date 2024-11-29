@@ -1,4 +1,4 @@
-#+TITLE: unsafe-typed-racket-mutable-treelist
+#+TITLE: typed-racket-mutable-treelist-lab
 #+AUTHOR: Noah Ma
 #+EMAIL: noahstorym@gmail.com
 
@@ -10,7 +10,7 @@
   - [[#license][License]]
 
 * Typed Racket-Compatible Mutable Treelist Library
-The ~unsafe-typed-racket-mutable-treelist~ package provides a typed wrapper
+The ~typed-racket-mutable-treelist-lab~ package provides a typed wrapper
 around the ~racket/mutable-treelist~ module in Racket. It introduces specific
 types to manage both read and write operations using Racket's ~Parameter~ type
 to simulate invariant types.
@@ -18,7 +18,7 @@ to simulate invariant types.
 ** Installation
 You can install the package from the Racket package manager using:
 #+begin_src shell
-raco pkg install unsafe-typed-racket-mutable-treelist
+raco pkg install typed-racket-mutable-treelist-lab
 #+end_src
 
 ** Usage
@@ -27,8 +27,8 @@ Typed Racket.
 
 ** Technical Details
 Typed Racket currently lacks support for contravariant types in type constructors,
-so ~unsafe-typed-racket-mutable-treelist~ relies on a ~Mutable-TreeListof~ struct
+so ~typed-racket-mutable-treelist-lab~ relies on a ~Mutable-TreeListof~ struct
 with ~Parameter~ types for read and write constraints.
 
 ** License
-~unsafe-typed-racket-mutable-treelist~ is distributed under the MIT License.
+~typed-racket-mutable-treelist-lab~ is distributed under the MIT License.
