@@ -18,8 +18,10 @@
                      [mutable-treelist-length mtreelist-length]
 
                      [mutable-treelist-first mutable-treelist-1st]
-                     [mutable-treelist-first        mtreelist-1st]
                      [mutable-treelist-first        mtreelist-first]
+                     [mutable-treelist-first        mtreelist-1st]
+                     [mutable-treelist-first mutable-treelist-car]
+                     [mutable-treelist-first        mtreelist-car]
                      [mutable-treelist-last         mtreelist-last]
                      [mutable-treelist-ref          mtreelist-ref]
 
