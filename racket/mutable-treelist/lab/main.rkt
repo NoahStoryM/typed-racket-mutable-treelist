@@ -6,16 +6,14 @@
 (struct (w r) Mutable-TreeListof ([_ : (Parameter w r)]))
 #;(struct (a ...) _ ([_ : (Parameter a ...)]) #:type-name Mutable-TreeListof) ; not work well
 (define-type (MTreeListof w r) (Mutable-TreeListof w r)) ; avoid printing #(struct:Mutable-TreeListof ...)
-(provide MTreeListof (rename-out [MTreeListof Mutable-TreeListof]))
+(provide (rename-out [MTreeListof Mutable-TreeListof]))
 
 (define-type Mutable-TreeListTop (MTreeListof Nothing Any))
 (define-type Mutable-TreeListBot (MTreeListof Any Nothing))
-(provide Mutable-TreeListTop (rename-out [Mutable-TreeListTop MTreeListTop])
-         Mutable-TreeListBot (rename-out [Mutable-TreeListBot MTreeListBot]))
+(provide Mutable-TreeListTop Mutable-TreeListBot)
 
-#;(define-type (ImmTreeListof t) (Immutabel-TreeListof t))
-#;(define-type (TreeListof t) (∪ (ImmTreeListof t) (MListof-TreeListof t t)))
-#;(provide ImmTreeListof TreeListof)
+#;(define-type (TreeListof t) (∪ (Immutable-TreeListof t) (MListof-TreeListof t t)))
+#;(provide TreeListof)
 
 (unsafe-require/typed/provide racket/mutable-treelist
   [mutable-treelist? (pred Mutable-TreeListTop)]
