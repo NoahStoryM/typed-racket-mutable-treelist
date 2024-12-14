@@ -1,6 +1,7 @@
 #lang typed/racket/base
 
-(require typed/racket/unsafe)
+(require (for-syntax racket/base syntax/parse)
+         typed/racket/unsafe)
 
 ;; TODO (Mutable-TreeListof t) → (Mutable-TreeListof t t)
 (struct (w r) Mutable-TreeListof ([_ : (Parameter w r)]))
@@ -70,3 +71,27 @@
                                              Void)))]
 
   [in-mutable-treelist (∀ (r) (→ (MTreeListof Nothing r) (Sequenceof r)))])
+
+(define-syntaxes (for/mutable-treelist for*/mutable-treelist)
+  (let ()
+    (define-splicing-syntax-class break-clause
+      [pattern (~seq (~or* #:break #:final) guard:expr)])
+    (define (make-for/mutable-treelist derived-stx)
+      (define (parser stx)
+        (syntax-parse stx
+          #:datum-literals (:)
+          [(_ : t1 (clause ...) : t2 break:break-clause ... body* ... body)
+           (quasisyntax/loc stx
+             (let ([mtl : t1 (ann (mutable-treelist) t2)])
+               (#,derived-stx (clause ...) break ... body* ...
+                (mutable-treelist-add! mtl body))
+               mtl))]
+          [(~or* (name : t0 (clause ...) break:break-clause ... body ...+)
+                 (name (clause ...) : t0 break:break-clause ... body ...+)
+                 (name (clause ...) break:break-clause ... body ...+))
+           #:with t (if (attribute t0) #'t0 #'(MTreeListof Any Any))
+           (parser (syntax/loc stx (name : t (clause ...) : t break ... body ...)))]))
+      parser)
+    (values (make-for/mutable-treelist #'for)
+            (make-for/mutable-treelist #'for*))))
+(provide for/mutable-treelist for*/mutable-treelist)

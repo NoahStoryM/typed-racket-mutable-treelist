@@ -60,5 +60,5 @@
                      [mutable-treelist-sort! mtreelist-sort!]
 
                      [in-mutable-treelist in-mtreelist]
-                     #;[for/mutable-treelist  for/mtreelist]
-                     #;[for*/mutable-treelist for*/mtreelist]))
+                     [for/mutable-treelist  for/mtreelist]
+                     [for*/mutable-treelist for*/mtreelist]))
