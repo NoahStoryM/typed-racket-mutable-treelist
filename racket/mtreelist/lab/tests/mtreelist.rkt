@@ -142,18 +142,18 @@
   (check-equal? ls '(-2 -1 0 1 2)))
 
 (test-case "for[*]/mtreelist"
-  (define mtl0 (for/mtreelist ([i 5]) i))
+  (define mtl0 (for/mtreelist #:length 10 #:fill 'b ([i 5]) i))
   (mtreelist-set! mtl0 0 'a)
-  (check-equal? (mtreelist->list mtl0) '(a 1 2 3 4))
+  (check-equal? (mtreelist->list mtl0) '(a 1 2 3 4 b b b b b))
 
-  (define mtl1 (for/mtreelist : (MTreeListof Natural Integer) ([i 5]) i))
+  (define mtl1 (for/mtreelist : (MTreeListof Natural Integer) ([i 5]) : Natural i))
   (mtreelist-set! mtl1 0 9)
   (check-equal? (mtreelist->list mtl1) '(9 1 2 3 4))
 
-  (define mtl2 (for/mtreelist ([i 5]) : (MTreeListof Natural Integer) i))
+  (define mtl2 (for/mtreelist ([i 5]) : Natural i))
   (mtreelist-set! mtl2 0 9)
   (check-equal? (mtreelist->list mtl2) '(9 1 2 3 4))
 
-  (define mtl3 (for/mtreelist : (MTreeListof Natural Integer) ([i 5]) : (MTreeListof Natural Natural) i))
+  (define mtl3 (for/mtreelist ([i 5]) i))
   (mtreelist-set! mtl3 0 9)
   (check-equal? (mtreelist->list mtl3) '(9 1 2 3 4)))

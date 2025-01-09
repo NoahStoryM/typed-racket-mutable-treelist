@@ -74,24 +74,30 @@
 
 (define-syntaxes (for/mutable-treelist for*/mutable-treelist)
   (let ()
+    (define-splicing-syntax-class length-clause
+      [pattern (~seq #:length n:expr (~optional (~seq #:fill fill:expr)))])
     (define-splicing-syntax-class break-clause
       [pattern (~seq (~or* #:break #:final) guard:expr)])
-    (define (make-for/mutable-treelist derived-stx)
-      (define (parser stx)
-        (syntax-parse stx
-          #:datum-literals (:)
-          [(_ : t1 (clause ...) : t2 break:break-clause ... body* ... body)
-           (quasisyntax/loc stx
-             (let ([mtl : t1 (ann (mutable-treelist) t2)])
-               (#,derived-stx (clause ...) break ... body* ...
-                (mutable-treelist-add! mtl body))
-               mtl))]
-          [(~or* (name : t0 (clause ...) break:break-clause ... body ...+)
-                 (name (clause ...) : t0 break:break-clause ... body ...+)
-                 (name (clause ...) break:break-clause ... body ...+))
-           #:with t (if (attribute t0) #'t0 #'(MTreeListof Any Any))
-           (parser (syntax/loc stx (name : t (clause ...) : t break ... body ...)))]))
-      parser)
-    (values (make-for/mutable-treelist #'for)
-            (make-for/mutable-treelist #'for*))))
+    (define ((make-for/mutable-treelist derived-stx) stx)
+      (syntax-parse stx
+        #:datum-literals (:)
+        [(_ : t1 (~optional length:length-clause) (clause ...) : t2 break:break-clause ... body ...+)
+         #:with (maybe-length ...) (if (attribute length) #'length #'())
+         (quasisyntax/loc stx
+           (ann
+            (vector->mutable-treelist
+             (#,derived-stx maybe-length ... (clause ...) : t2 break ... body ...))
+            t1))]
+        [(_ (~optional length:length-clause) (clause ...) : t break:break-clause ... body ...+)
+         #:with (maybe-length ...) (if (attribute length) #'length #'())
+         (quasisyntax/loc stx
+           (vector->mutable-treelist
+            (#,derived-stx maybe-length ... (clause ...) : t break ... body ...)))]
+        [(_ (~optional length:length-clause) (clause ...) break:break-clause ... body ...+)
+         #:with (maybe-length ...) (if (attribute length) #'length #'())
+         (quasisyntax/loc stx
+           (vector->mutable-treelist
+            (#,derived-stx maybe-length ... (clause ...) : Any break ... body ...)))]))
+    (values (make-for/mutable-treelist #'for/vector)
+            (make-for/mutable-treelist #'for*/vector))))
 (provide for/mutable-treelist for*/mutable-treelist)
