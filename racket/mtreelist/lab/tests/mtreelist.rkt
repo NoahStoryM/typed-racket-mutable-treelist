@@ -90,11 +90,14 @@
   (mtreelist-sublist! mtl 2 4)
   (check-equal? (mtreelist->list mtl) '(2 3)))
 
-(test-case "mtreelist append!"
+(test-case "mtreelist append! and prepend!"
   (: mtl (MTreeListof Integer Integer))
   (define mtl (mtreelist 0 1 2))
-  (mtreelist-append! mtl mtl)
-  (check-equal? (mtreelist->list mtl) '(0 1 2 0 1 2)))
+  (: mtl0 (MTreeListof Integer Integer))
+  (define mtl0 (mtreelist 3 4 5))
+  (mtreelist-append!  mtl mtl0)
+  (mtreelist-prepend! mtl mtl0)
+  (check-equal? (mtreelist->list mtl) '(3 4 5 0 1 2 3 4 5)))
 
 (test-case "mtreelist conversion"
   (: mtl (MTreeListof Integer Integer))

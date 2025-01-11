@@ -30,7 +30,8 @@
                      [mutable-treelist-set!    mtreelist-set!]
                      [mutable-treelist-insert! mtreelist-insert!]
 
-                     [mutable-treelist-append! mtreelist-append!]
+                     [mutable-treelist-append!  mtreelist-append!]
+                     [mutable-treelist-prepend! mtreelist-prepend!]
 
                      [mutable-treelist-reverse!    mtreelist-reverse!]
                      [mutable-treelist-delete!     mtreelist-delete!]
