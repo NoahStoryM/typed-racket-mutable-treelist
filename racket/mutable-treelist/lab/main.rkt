@@ -13,17 +13,14 @@
 (define-type Mutable-TreeListBot (MTreeListof Any Nothing))
 (provide Mutable-TreeListTop Mutable-TreeListBot)
 
-#;(define-type (TreeListof t) (∪ (Immutable-TreeListof t) (MListof-TreeListof t t)))
-#;(provide TreeListof)
-
 (unsafe-require/typed/provide racket/mutable-treelist
   [mutable-treelist? (pred Mutable-TreeListTop)]
   [mutable-treelist  (∀ (t) (→ t * (MTreeListof t t)))]
   [make-mutable-treelist (∀ (t) (case→ (→ Integer (MTreeListof (Option t) (Option t)))
                                        (→ Integer t (MTreeListof t t))))]
 
-  #;[treelist-copy (∀ (t) (→ (Immutable-TreeListof t) (MTreeListof t t)))]
-  #;[mutable-treelist-snapshot (∀ (w r) (→ (MTreeListof w r) (Immutable-TreeListof r)))]
+  #;[treelist-copy (∀ (t) (→ (TreeListof t) (MTreeListof t t)))]
+  #;[mutable-treelist-snapshot (∀ (w r) (→ (MTreeListof w r) (TreeListof r)))]
 
   [mutable-treelist-empty? (→ Mutable-TreeListTop Boolean)]
   [mutable-treelist-length (→ Mutable-TreeListTop Index)]
@@ -37,8 +34,8 @@
   [mutable-treelist-set!    (∀ (w) (→ (MTreeListof w Any) Integer w Void))]
   [mutable-treelist-insert! (∀ (w) (→ (MTreeListof w Any) Integer w Void))]
 
-  [mutable-treelist-append!  (∀ (t) (→ (MTreeListof t Any) (∪ (MTreeListof Nothing t) #;(Immutable-TreeListof t)) Void))]
-  [mutable-treelist-prepend! (∀ (t) (→ (MTreeListof t Any) (∪ (MTreeListof Nothing t) #;(Immutable-TreeListof t)) Void))]
+  [mutable-treelist-append!  (∀ (t) (→ (MTreeListof t Any) (∪ (MTreeListof Nothing t) #;(TreeListof t)) Void))]
+  [mutable-treelist-prepend! (∀ (t) (→ (MTreeListof t Any) (∪ (MTreeListof Nothing t) #;(TreeListof t)) Void))]
 
   [mutable-treelist-reverse!    (→ Mutable-TreeListTop Void)]
   [mutable-treelist-delete!     (→ Mutable-TreeListTop Integer Void)]
