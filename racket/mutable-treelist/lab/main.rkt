@@ -13,7 +13,7 @@
                                        (→ Integer t (Mutable-TreeListof t t))))]
 
   #;[treelist-copy (∀ (t) (→ (TreeListof t) (Mutable-TreeListof t t)))]
-  #;[mutable-treelist-snapshot (∀ (w r) (→ (Mutable-TreeListof w r) (TreeListof r)))]
+  #;[mutable-treelist-snapshot (∀ (r) (→ (Mutable-TreeListof Nothing r) (TreeListof r)))]
 
   [mutable-treelist-empty? (→ Mutable-TreeListTop Boolean)]
   [mutable-treelist-length (→ Mutable-TreeListTop Index)]
