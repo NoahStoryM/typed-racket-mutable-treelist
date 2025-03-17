@@ -1,41 +1,34 @@
 #lang typed/racket/base
 
 (require (for-syntax racket/base syntax/parse)
-         typed/racket/unsafe)
+         typed/racket/unsafe
+         "private/types.rkt")
 
-;; TODO (Mutable-TreeListof t) → (Mutable-TreeListof t t)
-(struct (w r) Mutable-TreeListof ([_ : (Parameter w r)]))
-#;(struct (a ...) _ ([_ : (Parameter a ...)]) #:type-name Mutable-TreeListof) ; not work well
-(define-type (MTreeListof w r) (Mutable-TreeListof w r)) ; avoid printing #(struct:Mutable-TreeListof ...)
-(provide (rename-out [MTreeListof Mutable-TreeListof]))
-
-(define-type Mutable-TreeListTop (MTreeListof Nothing Any))
-(define-type Mutable-TreeListBot (MTreeListof Any Nothing))
-(provide Mutable-TreeListTop Mutable-TreeListBot)
+(provide (all-from-out "private/types.rkt"))
 
 (unsafe-require/typed/provide racket/mutable-treelist
   [mutable-treelist? (pred Mutable-TreeListTop)]
-  [mutable-treelist  (∀ (t) (→ t * (MTreeListof t t)))]
-  [make-mutable-treelist (∀ (t) (case→ (→ Integer (MTreeListof (Option t) (Option t)))
-                                       (→ Integer t (MTreeListof t t))))]
+  [mutable-treelist  (∀ (t) (→ t * (Mutable-TreeListof t t)))]
+  [make-mutable-treelist (∀ (t) (case→ (→ Integer (Mutable-TreeListof (Option t) (Option t)))
+                                       (→ Integer t (Mutable-TreeListof t t))))]
 
-  #;[treelist-copy (∀ (t) (→ (TreeListof t) (MTreeListof t t)))]
-  #;[mutable-treelist-snapshot (∀ (w r) (→ (MTreeListof w r) (TreeListof r)))]
+  #;[treelist-copy (∀ (t) (→ (TreeListof t) (Mutable-TreeListof t t)))]
+  #;[mutable-treelist-snapshot (∀ (w r) (→ (Mutable-TreeListof w r) (TreeListof r)))]
 
   [mutable-treelist-empty? (→ Mutable-TreeListTop Boolean)]
   [mutable-treelist-length (→ Mutable-TreeListTop Index)]
 
-  [mutable-treelist-first (∀ (r) (→ (MTreeListof Nothing r) r))]
-  [mutable-treelist-last  (∀ (r) (→ (MTreeListof Nothing r) r))]
-  [mutable-treelist-ref   (∀ (r) (→ (MTreeListof Nothing r) Integer r))]
+  [mutable-treelist-first (∀ (r) (→ (Mutable-TreeListof Nothing r) r))]
+  [mutable-treelist-last  (∀ (r) (→ (Mutable-TreeListof Nothing r) r))]
+  [mutable-treelist-ref   (∀ (r) (→ (Mutable-TreeListof Nothing r) Integer r))]
 
-  [mutable-treelist-cons!   (∀ (w) (→ (MTreeListof w Any) w Void))]
-  [mutable-treelist-add!    (∀ (w) (→ (MTreeListof w Any) w Void))]
-  [mutable-treelist-set!    (∀ (w) (→ (MTreeListof w Any) Integer w Void))]
-  [mutable-treelist-insert! (∀ (w) (→ (MTreeListof w Any) Integer w Void))]
+  [mutable-treelist-cons!   (∀ (w) (→ (Mutable-TreeListof w Any) w Void))]
+  [mutable-treelist-add!    (∀ (w) (→ (Mutable-TreeListof w Any) w Void))]
+  [mutable-treelist-set!    (∀ (w) (→ (Mutable-TreeListof w Any) Integer w Void))]
+  [mutable-treelist-insert! (∀ (w) (→ (Mutable-TreeListof w Any) Integer w Void))]
 
-  [mutable-treelist-append!  (∀ (t) (→ (MTreeListof t Any) (∪ (MTreeListof Nothing t) #;(TreeListof t)) Void))]
-  [mutable-treelist-prepend! (∀ (t) (→ (MTreeListof t Any) (∪ (MTreeListof Nothing t) #;(TreeListof t)) Void))]
+  [mutable-treelist-append!  (∀ (t) (→ (Mutable-TreeListof t Any) (∪ (Mutable-TreeListof Nothing t) #;(TreeListof t)) Void))]
+  [mutable-treelist-prepend! (∀ (t) (→ (Mutable-TreeListof t Any) (∪ (Mutable-TreeListof Nothing t) #;(TreeListof t)) Void))]
 
   [mutable-treelist-reverse!    (→ Mutable-TreeListTop Void)]
   [mutable-treelist-delete!     (→ Mutable-TreeListTop Integer Void)]
@@ -45,30 +38,30 @@
   [mutable-treelist-drop-right! (→ Mutable-TreeListTop Integer Void)]
   [mutable-treelist-sublist!    (→ Mutable-TreeListTop Integer Integer Void)]
 
-  [mutable-treelist->vector (∀ (r) (→ (MTreeListof Nothing r) (Mutable-Vectorof r)))]
-  [mutable-treelist->list   (∀ (r) (→ (MTreeListof Nothing r) (Listof           r)))]
-  [vector->mutable-treelist (∀ (t) (→ (Vectorof t) (MTreeListof t t)))]
-  [list->mutable-treelist   (∀ (t) (→ (Listof   t) (MTreeListof t t)))]
+  [mutable-treelist->vector (∀ (r) (→ (Mutable-TreeListof Nothing r) (Mutable-Vectorof r)))]
+  [mutable-treelist->list   (∀ (r) (→ (Mutable-TreeListof Nothing r) (Listof           r)))]
+  [vector->mutable-treelist (∀ (t) (→ (Vectorof t) (Mutable-TreeListof t t)))]
+  [list->mutable-treelist   (∀ (t) (→ (Listof   t) (Mutable-TreeListof t t)))]
 
-  [mutable-treelist-map! (∀ (w r) (→ (MTreeListof w r) (→ r w) Void))]
+  [mutable-treelist-map! (∀ (w r) (→ (Mutable-TreeListof w r) (→ r w) Void))]
 
-  [mutable-treelist-for-each (∀ (r) (→ (MTreeListof Nothing r) (→ r Any) Void))]
+  [mutable-treelist-for-each (∀ (r) (→ (Mutable-TreeListof Nothing r) (→ r Any) Void))]
 
   [mutable-treelist-member? (∀ (r t) (case→ (→ Mutable-TreeListTop Any Boolean)
-                                            (→ (MTreeListof Nothing r) t (→ t r Any) Boolean)))]
+                                            (→ (Mutable-TreeListof Nothing r) t (→ t r Any) Boolean)))]
 
-  [mutable-treelist-find (∀ (r) (→ (MTreeListof Nothing r) (→ r Any) r))]
+  [mutable-treelist-find (∀ (r) (→ (Mutable-TreeListof Nothing r) (→ r Any) r))]
 
-  [mutable-treelist-sort! (∀ (a b) (case→ (→ (MTreeListof a a) (→ a a Boolean)
+  [mutable-treelist-sort! (∀ (a b) (case→ (→ (Mutable-TreeListof a a) (→ a a Boolean)
                                              [#:key (Option (→ a a))]
                                              [#:cache-keys? Boolean]
                                              Void)
-                                          (→ (MTreeListof a a) (→ b b Boolean)
+                                          (→ (Mutable-TreeListof a a) (→ b b Boolean)
                                              #:key (→ a b)
                                              [#:cache-keys? Boolean]
                                              Void)))]
 
-  [in-mutable-treelist (∀ (r) (→ (MTreeListof Nothing r) (Sequenceof r)))])
+  [in-mutable-treelist (∀ (r) (→ (Mutable-TreeListof Nothing r) (Sequenceof r)))])
 
 (define-syntaxes (for/mutable-treelist for*/mutable-treelist)
   (let ()
