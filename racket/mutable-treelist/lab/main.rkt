@@ -1,6 +1,7 @@
 #lang typed/racket/base
 
 (require (for-syntax racket/base syntax/parse)
+         racket/treelist
          typed/racket/unsafe
          "private/types.rkt")
 
@@ -12,8 +13,8 @@
   [make-mutable-treelist (∀ (t) (case→ (→ Integer (Mutable-TreeListof (Option t) (Option t)))
                                        (→ Integer t (Mutable-TreeListof t t))))]
 
-  #;[treelist-copy (∀ (t) (→ (TreeListof t) (Mutable-TreeListof t t)))]
-  #;[mutable-treelist-snapshot (∀ (r) (→ (Mutable-TreeListof Nothing r) (TreeListof r)))]
+  [treelist-copy (∀ (t) (→ (TreeListof t) (Mutable-TreeListof t t)))]
+  [mutable-treelist-snapshot (∀ (r) (→ (Mutable-TreeListof Nothing r) (TreeListof r)))]
 
   [mutable-treelist-empty? (→ Mutable-TreeListTop Boolean)]
   [mutable-treelist-length (→ Mutable-TreeListTop Index)]
@@ -27,8 +28,8 @@
   [mutable-treelist-set!    (∀ (w) (→ (Mutable-TreeListof w Any) Integer w Void))]
   [mutable-treelist-insert! (∀ (w) (→ (Mutable-TreeListof w Any) Integer w Void))]
 
-  [mutable-treelist-append!  (∀ (t) (→ (Mutable-TreeListof t Any) (∪ (Mutable-TreeListof Nothing t) #;(TreeListof t)) Void))]
-  [mutable-treelist-prepend! (∀ (t) (→ (Mutable-TreeListof t Any) (∪ (Mutable-TreeListof Nothing t) #;(TreeListof t)) Void))]
+  [mutable-treelist-append!  (∀ (t) (→ (Mutable-TreeListof t Any) (∪ (Mutable-TreeListof Nothing t) (TreeListof t)) Void))]
+  [mutable-treelist-prepend! (∀ (t) (→ (Mutable-TreeListof t Any) (∪ (Mutable-TreeListof Nothing t) (TreeListof t)) Void))]
 
   [mutable-treelist-reverse!    (→ Mutable-TreeListTop Void)]
   [mutable-treelist-delete!     (→ Mutable-TreeListTop Integer Void)]

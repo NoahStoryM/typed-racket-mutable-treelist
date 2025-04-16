@@ -1,6 +1,8 @@
 #lang typed/racket/base
 
-(require "../../lab.rkt" typed/rackunit)
+(require "../../lab.rkt"
+         racket/treelist
+         typed/rackunit)
 
 
 (test-case "mutable-treelist creation"
@@ -16,6 +18,14 @@
   (check-equal? (mutable-treelist->list mtl) '(#f #f #f))
   (mutable-treelist-set! mtl 1 0)
   (check-equal? (mutable-treelist->list mtl) '(#f  0 #f)))
+
+(test-case "copy and snapshot"
+  (: tl (TreeListof Integer))
+  (define tl (treelist 1 2 3))
+  (check-equal? (mutable-treelist->list (treelist-copy tl)) '(1 2 3))
+  (: mtl (Mutable-TreeListof Integer Integer))
+  (define mtl (mutable-treelist 4 5 6))
+  (check-equal? (treelist->list (mutable-treelist-snapshot mtl)) '(4 5 6)))
 
 (test-case "mutable-treelist length"
   (: mtl (Mutable-TreeListof Integer Integer))
@@ -92,12 +102,14 @@
 
 (test-case "mutable-treelist append! and prepend!"
   (: mtl (Mutable-TreeListof Integer Integer))
-  (define mtl (mutable-treelist 0 1 2))
+  (define mtl (mutable-treelist -1 0 1))
   (: mtl0 (Mutable-TreeListof Integer Integer))
-  (define mtl0 (mutable-treelist 3 4 5))
+  (define mtl0 (mutable-treelist 2 3 4))
+  (: tl (TreeListof Integer))
+  (define tl (treelist -4 -3 -2))
   (mutable-treelist-append!  mtl mtl0)
-  (mutable-treelist-prepend! mtl mtl0)
-  (check-equal? (mutable-treelist->list mtl) '(3 4 5 0 1 2 3 4 5)))
+  (mutable-treelist-prepend! mtl tl)
+  (check-equal? (mutable-treelist->list mtl) '(-4 -3 -2 -1 0 1 2 3 4)))
 
 (test-case "mutable-treelist conversion"
   (: mtl (Mutable-TreeListof Integer Integer))
