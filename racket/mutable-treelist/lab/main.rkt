@@ -1,13 +1,12 @@
-#lang typed/racket/base
+#lang typed/racket/base/optional
 
 (require (for-syntax racket/base syntax/parse)
          racket/treelist
-         typed/racket/unsafe
          "private/types.rkt")
 
 (provide (all-from-out "private/types.rkt"))
 
-(unsafe-require/typed/provide racket/mutable-treelist
+(require/typed/provide racket/mutable-treelist
   [mutable-treelist? (pred Mutable-TreeListTop)]
   [mutable-treelist  (∀ (t) (→ t * (Mutable-TreeListof t t)))]
   [make-mutable-treelist (∀ (t) (case→ (→ Integer (Mutable-TreeListof (Option t) (Option t)))
